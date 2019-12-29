@@ -1,7 +1,10 @@
 <?php
-require('DataTable.php');
 
-use DT_library\DataTable;
+require_once 'vendor/autoload.php';
+
+use ArrayConversion\Classes\ArrayConversion;
+
+
 
 // Multiple array
 $data = [
@@ -26,24 +29,24 @@ $data = [
 
 
 if (isset($_POST['downloadCSV'])) {
-    $table = new DataTable($data);
+    $table = new ArrayConversion($data);
     $table->toCSV();
 }
 
-$toTableInitiate = new DataTable($data);
+$toTableInitiate = new ArrayConversion($data);
 $toTable = $toTableInitiate->toTable();
 
 
-$toTableInitiate = new DataTable($data);
+$toTableInitiate = new ArrayConversion($data);
 $toJson = $toTableInitiate->toJson();
 
 
-$toTableInitiate = new DataTable($data);
+$toTableInitiate = new ArrayConversion($data);
 $toXml = $toTableInitiate->toXml();
 
 $value = 'Edit';
 $sl = 0;
-$toTableInitiate = new DataTable($data);
+$toTableInitiate = new ArrayConversion($data);
 $table_after_addcolumn = $toTableInitiate->addColumn('#SL', function () use (&$sl) {
     return ++$sl;
 })
@@ -54,7 +57,7 @@ $table_after_addcolumn = $toTableInitiate->addColumn('#SL', function () use (&$s
 
 
 $sl1 = 0;
-$toTableInitiate = new DataTable($data);
+$toTableInitiate = new ArrayConversion($data);
 $table_after_removeColumn = $toTableInitiate->addColumn('#SL', function () use (&$sl1) {
     return ++$sl1;
 })
@@ -65,7 +68,7 @@ $table_after_removeColumn = $toTableInitiate->addColumn('#SL', function () use (
     ->toTable();
 
 
-$toTableInitiate = new DataTable($data);
+$toTableInitiate = new ArrayConversion($data);
 $table_with_editColumn = $toTableInitiate->editColumn('email', function ($data) {
     return 'Email: ' . $data['email'];
 })->toTable();
