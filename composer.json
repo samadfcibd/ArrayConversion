@@ -1,6 +1,16 @@
 {
     "name": "samad/array-conversion",
     "description": "PHP Library for converting associative arrays as html table, XML, JSON, CSV. Also add, remove or edit column can be possible.",
+    "keywords" :[
+        "array",
+        "array-conversion",
+        "array-convert",
+        "array-to-xml",
+        "array-to-csv",
+        "array-to-json",
+        "array-to-html"
+    ],
+    "homepage": "https://github.com/samadfcibd/ArrayConversion",
     "type": "library",
     "license": "MIT",
     "authors": [

@@ -2,7 +2,9 @@
 
 namespace ArrayConversion\Classes;
 
+
 use SimpleXMLElement;
+use InvalidArgumentException;
 
 class ArrayConversion
 {
@@ -18,14 +20,14 @@ class ArrayConversion
     public function __construct($data)
     {
         // if the data is object type then convert it into array
-        if (is_object($data)) {
-            $data = (array)$data;
-        }
+//        if (is_object($data)) {
+//            $data = (array)$data;
+//        }
 
         // Check data type
         if (!is_array($data)) {
-            echo 'Data type should be array or object';
-            exit();
+//            return trigger_error('Data type should be array or object ', E_USER_ERROR);
+            throw new InvalidArgumentException("Error");
         }
 
         if (count($data) != count($data, COUNT_RECURSIVE)) {

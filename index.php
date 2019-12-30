@@ -19,7 +19,7 @@ $data = [
 ];
 
 // Object
-//$data = (object) $data;
+$data = (object) $data;
 
 // Single array
 //$data = [
