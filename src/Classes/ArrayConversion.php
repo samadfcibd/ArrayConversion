@@ -4,7 +4,7 @@
  * ArrayConversion class used for conversion given array.
  * PHP Version 5
  *
- * @param array | object
+ * @param array|object
  *
  * @category Php-package
  *
@@ -25,6 +25,7 @@
 
 namespace ArrayConversion\Classes;
 
+use ArrayConversion\Exceptions\ArrayConversionException;
 use SimpleXMLElement;
 use InvalidArgumentException;
 
@@ -34,7 +35,7 @@ use InvalidArgumentException;
  * At first input data will assigned to $data,
  * after that this data will be processed as per as user demand.
  *
- * @param array | object
+ * @param array|object
  *
  * @category Php-package
  *
@@ -71,19 +72,21 @@ class ArrayConversion
 
     /**
      * ArrayConversion constructor.
-     * @param $data
+     *
+     * @param array|object $data data
      */
     public function __construct($data)
     {
         // if the data is object type then convert it into array
-//        if (is_object($data)) {
-//            $data = (array)$data;
-//        }
+        if (is_object($data)) {
+            $data = (array)$data;
+        }
 
         // Check data type
         if (!is_array($data)) {
-//            return trigger_error('Data type should be array or object ', E_USER_ERROR);
-            throw new InvalidArgumentException("Error");
+            return
+             trigger_error('Data type should be array or object ', E_USER_ERROR);
+//            throw new ArrayConversionException("Error");
         }
 
         if (count($data) != count($data, COUNT_RECURSIVE)) {
@@ -93,57 +96,46 @@ class ArrayConversion
             $this->_input_type = 1;
             $this->_data = $data;
         }
+
     }
 
+    /**
+     * Convert data into html table
+     *
+     * @return string
+     */
     public function toTable()
     {
-        if ($this->_input_type === 2) {
-
-            $table_head_columns = '<thead><tr>';
-            foreach (array_keys($this->_data[0]) as $key => $value) {
-                $table_head_columns .= '<th>' . $value . '</th>';
-            }
-            $table_head_columns .= '</tr><thead>';
-
-            $table_body_columns = '';
-            foreach ($this->_data as $key => $value) {
-                $table_body_columns .= '<tr>';
-                foreach ($value as $key => $value) {
-                    $table_body_columns .= '<td>' . $value . '</td>';
-                }
-                $table_body_columns .= '</tr>';
-            }
-            $table_body_columns = '<tbody>' . $table_body_columns . '</tbody>';
-            return '<table class="table table-bordered">' . $table_head_columns . $table_body_columns . '</table>';
-
-        } else {
-
-            $table_head_columns = '<thead><tr>';
-            $table_body_columns = '<tbody><tr>';
-            foreach ($this->_data as $key => $value) {
-                $table_head_columns .= '<th>' . $key . '</th>';
-                $table_body_columns .= '<td>' . $value . '</td>';
-            }
-            $table_head_columns .= '<tr></thead>';
-            $table_body_columns .= '<tr></tbody>';
-            return '<table class="table table-bordered">' . $table_head_columns . $table_body_columns . '</table>';
-        }
+        $conversionOutput = new ConversionOutput();
+        print_r($conversionOutput);exit;
+        return $conversionOutput->toHtml();
     }
 
+    /**
+     * Add new column to data array
+     *
+     * @param string $column_name Column name
+     * @param closure $user_function Column content
+     *
+     * @return $this
+     */
     public function addColumn($column_name, $user_function)
     {
         if ($this->_input_type === 1) {
-            //$this->_data[$column_name] = $user_function($this->_data);
-            $this->_data[$column_name] = call_user_func($user_function, $this->_data);
+            $this->_data[$column_name] = $user_function->__invoke($this->_data);
         } else {
             foreach ($this->_data as $key => $row) {
-                //$this->_data[$key][$column_name] = $user_function->__invoke($row);
-                $this->_data[$key][$column_name] = call_user_func($user_function, $row);
+                $this->_data[$key][$column_name] = $user_function->__invoke($row);
             }
         }
         return $this;
     }
 
+    /**
+     * Remove column from data array
+     *
+     * @return $this
+     */
     public function removeColumn()
     {
         $arguments = func_get_args();
@@ -162,31 +154,45 @@ class ArrayConversion
                 }
             }
         }
-
-//        echo '<pre>';
-//        print_r($arguments);
-//        exit;
         return $this;
     }
 
+    /**
+     * Edit column of data array
+     *
+     * @param string $column_name Column name
+     * @param closure $user_function Column content
+     *
+     * @return $this
+     */
     public function editColumn($column_name, $user_function)
     {
         if ($this->_input_type === 1) {
-            $this->_data[$column_name] = $user_function($this->_data);
+            $this->_data[$column_name] = $user_function->__invoke($this->_data);
         } else {
             foreach ($this->_data as $key => $row) {
-                $this->_data[$key][$column_name] = $user_function($row);
+                $this->_data[$key][$column_name] = $user_function->__invoke($row);
             }
         }
 
         return $this;
     }
 
+    /**
+     * Convert data array into json format
+     *
+     * @return false|string
+     */
     public function toJson()
     {
         return json_encode($this->_data);
     }
 
+    /**
+     * Convert data array into XML format
+     *
+     * @return mixed
+     */
     public function toXml()
     {
         // Creating a object of simple XML element
@@ -194,7 +200,6 @@ class ArrayConversion
 
         // Visit all key value pair
         foreach ($this->_data as $k => $v) {
-
             // If there is nested array then
             if (is_array($v)) {
                 $child = $xml->addChild("row_$k");
@@ -208,6 +213,11 @@ class ArrayConversion
         return $xml->saveXML();
     }
 
+    /**
+     * Download CSV file
+     *
+     * @return csv
+     */
     public function toCSV()
     {
 
