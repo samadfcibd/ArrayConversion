@@ -1,14 +1,8 @@
 <?php
 
-namespace ArrayConversion\src\Contracts;
+namespace ArrayConversion\Contracts;
 
 interface OutputInterface
 {
-    public function toHtml();
-
-    public function toJson();
-
-    public function toXml();
-
-    public function toCSV();
+    public function getOutput($array_type, $array);
 }
