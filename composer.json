@@ -25,5 +25,10 @@
         "psr-4": {
             "ArrayConversion\\" : "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ArrayConversion\\Tests\\" : "tests/"
+        }
     }
 }

@@ -42,7 +42,9 @@ $toJson = $toTableInitiate->toJson();
 
 
 $toTableInitiate = new ArrayConversion($data);
-$toXml = $toTableInitiate->toXml();
+$toXml = $toTableInitiate->addColumn('Action', function ($data) use ($value) {
+    return '<button class="btn btn-success btn-xs" title="' . $data['name'] . '">' . $value . '</button>';
+})->toXml();
 
 $value = 'Edit';
 $sl = 0;

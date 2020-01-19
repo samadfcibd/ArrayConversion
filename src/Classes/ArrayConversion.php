@@ -96,6 +96,9 @@ class ArrayConversion
             }
         } catch (InvalidInputException $e) {
             $e->getError();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            exit();
         }
 
     }
