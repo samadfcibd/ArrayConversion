@@ -8,6 +8,5 @@ class initialTest
 {
     public function myFirstTest()
     {
-        $this->
     }
 }

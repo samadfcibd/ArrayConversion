@@ -5,7 +5,6 @@ require_once 'vendor/autoload.php';
 use ArrayConversion\Classes\ArrayConversion;
 
 
-
 // Multiple array
 $data = [
     [
@@ -19,7 +18,7 @@ $data = [
 ];
 
 // Object
-$data = (object) $data;
+$data = (object)$data;
 
 // Single array
 //$data = [
@@ -40,13 +39,13 @@ $toTable = $toTableInitiate->toTable();
 $toTableInitiate = new ArrayConversion($data);
 $toJson = $toTableInitiate->toJson();
 
-
+$value = 'Edit';
 $toTableInitiate = new ArrayConversion($data);
 $toXml = $toTableInitiate->addColumn('Action', function ($data) use ($value) {
     return '<button class="btn btn-success btn-xs" title="' . $data['name'] . '">' . $value . '</button>';
 })->toXml();
 
-$value = 'Edit';
+
 $sl = 0;
 $toTableInitiate = new ArrayConversion($data);
 $table_after_addcolumn = $toTableInitiate->addColumn('#SL', function () use (&$sl) {
@@ -66,7 +65,7 @@ $table_after_removeColumn = $toTableInitiate->addColumn('#SL', function () use (
     ->addColumn('Action', function ($data) use ($value) {
         return '<button class="btn btn-success btn-xs" title="' . $data['name'] . '">' . $value . '</button>';
     })
-    ->removeColumn('email')
+    ->removeColumn('email', 'name')
     ->toTable();
 
 
@@ -93,7 +92,7 @@ $table_with_editColumn = $toTableInitiate->editColumn('email', function ($data) 
     </pre>
 
     <h3>To Table</h3>
-    <?php print_r($toTable); ?>
+    <?php echo new ArrayConversion($data)->toTable(); ?>
 
     <h3>To Json</h3>
     <?php print_r($toJson); ?>
