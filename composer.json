@@ -16,7 +16,8 @@
     "authors": [
         {
             "name": "Abdus Samad",
-            "email": "samadocpl@gmail.com"
+            "email": "samadocpl@gmail.com",
+            "homepage": "https://samadfcibd.github.io"
         }
     ],
     "minimum-stability": "stable",
