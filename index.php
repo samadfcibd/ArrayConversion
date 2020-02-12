@@ -92,7 +92,7 @@ $table_with_editColumn = $toTableInitiate->editColumn('email', function ($data) 
     </pre>
 
     <h3>To Table</h3>
-    <?php echo new ArrayConversion($data)->toTable(); ?>
+    <?php echo $toTable; ?>
 
     <h3>To Json</h3>
     <?php print_r($toJson); ?>

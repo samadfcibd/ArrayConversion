@@ -2,6 +2,8 @@
 
 PHP Library for converting associative arrays as html table, XML, JSON, CSV. Also add, remove or edit column can be possible.
 
+Inspired by [yajra/laravel-datatables](https://github.com/yajra/laravel-datatables)
+
 
 ## Installation
 
